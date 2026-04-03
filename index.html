@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Einarbeitungsplan – Empfang Physiologicum Berlin</title>
+<style>
+  :root {
+    --primary: #2A7D6E;
+    --primary-light: #E8F5F1;
+    --primary-dark: #1B5C50;
+    --accent: #F0A500;
+    --accent-light: #FFF8E7;
+    --bg: #F7F9FB;
+    --card: #FFFFFF;
+    --text: #2D3748;
+    --text-light: #718096;
+    --border: #E2E8F0;
+    --success: #38A169;
+    --warning: #DD6B20;
+    --danger: #E53E3E;
+    --info: #3182CE;
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.10);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; font-size: 16px; }
+
+  /* ── HERO ── */
+  .hero { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, #3AAF96 100%); color: white; padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+  .hero::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 40px; background: var(--bg); border-radius: 50% 50% 0 0 / 100% 100% 0 0; }
+  .hero h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: .4rem; }
+  .hero .subtitle { font-size: 1.15rem; opacity: .9; margin-bottom: 1.2rem; }
+  .hero .badge { display: inline-block; background: rgba(255,255,255,.2); padding: .35rem 1rem; border-radius: 20px; font-size: .85rem; backdrop-filter: blur(4px); }
+
+  /* ── PROGRESS ── */
+  .progress-wrapper { position: sticky; top: 0; z-index: 100; background: var(--card); border-bottom: 1px solid var(--border); padding: .7rem 2rem; box-shadow: var(--shadow); }
+  .progress-bar-outer { background: var(--border); border-radius: 10px; height: 10px; overflow: hidden; }
+  .progress-bar-inner { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 10px; transition: width .5s ease; width: 0%; }
+  .progress-text { display: flex; justify-content: space-between; font-size: .8rem; color: var(--text-light); margin-top: .3rem; }
+
+  /* ── NAV ── */
+  .phase-nav { display: flex; gap: .5rem; padding: 1rem 2rem; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; background: var(--card); border-bottom: 1px solid var(--border); }
+  .phase-nav::-webkit-scrollbar { display: none; }
+  .phase-pill { flex-shrink: 0; padding: .5rem 1.1rem; border-radius: 20px; border: 2px solid var(--border); background: var(--card); cursor: pointer; font-size: .85rem; font-weight: 600; color: var(--text-light); transition: all .25s; text-decoration: none; white-space: nowrap; }
+  .phase-pill:hover { border-color: var(--primary); color: var(--primary); }
+  .phase-pill.active { background: var(--primary); color: white; border-color: var(--primary); }
+  .phase-pill.completed { background: var(--success); color: white; border-color: var(--success); }
+
+  /* ── SEARCH ── */
+  .search-wrapper { padding: 0 2rem 1rem; background: var(--card); }
+  .search-box { width: 100%; padding: .65rem 1rem .65rem 2.5rem; border: 2px solid var(--border); border-radius: 10px; font-size: .95rem; outline: none; transition: border-color .2s; background: var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E") no-repeat .7rem center; }
+  .search-box:focus { border-color: var(--primary); }
+
+  /* ── MAIN ── */
+  .container { max-width: 960px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
+
+  /* ── CARDS ── */
+  .welcome-card { background: var(--card); border-radius: var(--radius); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow); border-left: 5px solid var(--primary); }
+  .welcome-card h2 { color: var(--primary-dark); margin-bottom: .8rem; font-size: 1.4rem; }
+  .card { background: var(--card); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.2rem; box-shadow: var(--shadow); }
+  .card h3 { font-size: 1.1rem; color: var(--primary-dark); margin-bottom: .7rem; }
+
+  /* ── RESOURCE HUB ── */
+  .resource-hub { background: var(--primary-light); border-radius: var(--radius); padding: 1.8rem; margin-bottom: 2rem; border: 1px solid #C6E0DA; }
+  .resource-hub h3 { color: var(--primary-dark); margin-bottom: 1rem; font-size: 1.15rem; }
+  .resource-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: .8rem; }
+  .resource-link { display: flex; align-items: center; gap: .7rem; padding: .7rem 1rem; background: var(--card); border-radius: 8px; text-decoration: none; color: var(--text); font-size: .9rem; transition: transform .15s, box-shadow .15s; border: 1px solid var(--border); }
+  .resource-link:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .resource-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+  .icon-pdf { background: #FEE2E2; } .icon-web { background: #DBEAFE; } .icon-video { background: #EDE9FE; } .icon-help { background: #FEF3C7; }
+
+  /* ── PHASE SECTION ── */
+  .phase-section { margin-bottom: 2.5rem; scroll-margin-top: 120px; }
+  .phase-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; cursor: pointer; user-select: none; }
+  .phase-number { width: 48px; height: 48px; border-radius: 50%; background: var(--primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.2rem; flex-shrink: 0; }
+  .phase-number.done { background: var(--success); }
+  .phase-title-block h2 { font-size: 1.35rem; color: var(--primary-dark); }
+  .phase-title-block .week-badge { font-size: .78rem; background: var(--accent-light); color: var(--warning); padding: .15rem .6rem; border-radius: 10px; font-weight: 600; }
+  .phase-toggle { margin-left: auto; font-size: 1.5rem; color: var(--text-light); transition: transform .3s; }
+  .phase-toggle.open { transform: rotate(180deg); }
+  .phase-body { display: none; padding-left: .5rem; }
+  .phase-body.open { display: block; }
+
+  /* ── STEPS ── */
+  .steps { counter-reset: step; margin: 1rem 0; }
+  .step { display: flex; gap: .8rem; margin-bottom: .8rem; align-items: flex-start; }
+  .step::before { counter-increment: step; content: counter(step); width: 28px; height: 28px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .8rem; flex-shrink: 0; margin-top: 2px; }
+
+  /* ── CALLOUTS ── */
+  .callout { padding: 1rem 1.2rem; border-radius: 8px; margin: 1rem 0; font-size: .92rem; }
+  .callout-title { font-weight: 700; margin-bottom: .3rem; }
+  .callout-info { background: #EBF5FF; border-left: 4px solid var(--info); }
+  .callout-warn { background: #FFFBEB; border-left: 4px solid var(--accent); }
+  .callout-danger { background: #FFF5F5; border-left: 4px solid var(--danger); }
+  .callout-tip { background: var(--primary-light); border-left: 4px solid var(--primary); }
+
+  /* ── GLOSSARY ── */
+  .glossary-term { display: inline; border-bottom: 2px dotted var(--primary); cursor: help; position: relative; font-weight: 600; }
+  .glossary-tooltip { display: none; position: absolute; bottom: 130%; left: 50%; transform: translateX(-50%); background: var(--text); color: white; padding: .6rem .9rem; border-radius: 8px; font-size: .82rem; font-weight: 400; width: 280px; z-index: 50; line-height: 1.5; box-shadow: var(--shadow-lg); }
+  .glossary-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -6px; border: 6px solid transparent; border-top-color: var(--text); }
+  .glossary-term:hover .glossary-tooltip { display: block; }
+
+  /* ── VIDEO ── */
+  .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; margin: 1rem 0; background: #000; }
+  .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; border-radius: 8px; }
+  .video-card { background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); margin-bottom: 1.2rem; }
+  .video-card .video-info { padding: .8rem 1.2rem; }
+  .video-card .video-info h4 { font-size: .95rem; margin-bottom: .2rem; color: var(--primary-dark); }
+  .video-card .video-info p { font-size: .82rem; color: var(--text-light); }
+  .video-link-card { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: .8rem; text-decoration: none; color: var(--text); border: 1px solid var(--border); transition: border-color .2s, box-shadow .2s; }
+  .video-link-card:hover { border-color: var(--primary); box-shadow: var(--shadow-lg); }
+  .play-icon { width: 44px; height: 44px; background: var(--danger); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: white; font-size: 1.1rem; }
+
+  /* ── TTS BUTTON ── */
+  .tts-btn { display: inline-flex; align-items: center; gap: .4rem; padding: .4rem .9rem; border: 1px solid var(--border); border-radius: 20px; background: var(--card); cursor: pointer; font-size: .8rem; color: var(--text-light); transition: all .2s; margin-top: .5rem; }
+  .tts-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+  .tts-btn.playing { border-color: var(--danger); color: var(--danger); background: #FFF5F5; }
+  .tts-btn svg { width: 16px; height: 16px; }
+
+  /* ── ILLUSTRATION ── */
+  .illustration { display: flex; justify-content: center; margin: 1.2rem 0; }
+  .illustration svg { max-width: 100%; height: auto; }
+  .illustration img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: var(--shadow); }
+  .illust-inline { display: inline-block; vertical-align: middle; margin-right: .3rem; }
+
+
+  /* ── CHECKLIST ── */
+  .checklist { margin: 1.2rem 0; }
+  .check-item { display: flex; align-items: center; gap: .7rem; padding: .6rem .8rem; border-radius: 8px; transition: background .15s; cursor: pointer; user-select: none; }
+  .check-item:hover { background: var(--primary-light); }
+  .check-item input[type="checkbox"] { display: none; }
+  .check-box { width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .2s; font-size: .8rem; color: transparent; }
+  .check-item input:checked ~ .check-box { background: var(--success); border-color: var(--success); color: white; }
+  .check-item input:checked ~ .check-label { text-decoration: line-through; color: var(--text-light); }
+  .check-label { font-size: .92rem; }
+
+  /* ── DEF GRID ── */
+  .def-grid { display: grid; grid-template-columns: 1fr; gap: .5rem; margin: 1rem 0; }
+  .def-item { display: flex; gap: .8rem; padding: .7rem; background: #F7FAFC; border-radius: 8px; font-size: .92rem; }
+  .def-item strong { color: var(--primary-dark); min-width: 170px; flex-shrink: 0; }
+
+  /* ── KBD ── */
+  kbd { display: inline-block; padding: .15rem .45rem; font-size: .82rem; font-family: 'Segoe UI', monospace; background: #EDF2F7; border: 1px solid #CBD5E0; border-radius: 4px; box-shadow: 0 1px 0 #CBD5E0; }
+
+  /* ── TABLE ── */
+  .info-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: 8px; overflow: hidden; margin: 1rem 0; font-size: .9rem; }
+  .info-table th { background: var(--primary); color: white; padding: .7rem 1rem; text-align: left; font-weight: 600; }
+  .info-table td { padding: .6rem 1rem; border-bottom: 1px solid var(--border); }
+  .info-table tr:nth-child(even) td { background: #F7FAFC; }
+  .info-table a { color: var(--primary); }
+
+  /* ── PAID ── */
+  .paid-section { background: #FFFBEB; border: 2px dashed var(--accent); border-radius: var(--radius); padding: 1.5rem; margin-top: 1.5rem; }
+  .paid-badge { display: inline-block; background: var(--accent); color: white; padding: .2rem .7rem; border-radius: 10px; font-size: .75rem; font-weight: 700; margin-bottom: .5rem; }
+
+  /* ── FINAL ── */
+  .final-card { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white; border-radius: var(--radius); padding: 2rem; text-align: center; margin-top: 2rem; }
+  .final-card h2 { margin-bottom: .7rem; }
+
+  /* ── PROCESS FLOW ── */
+  .process-flow { display: flex; align-items: center; gap: .3rem; flex-wrap: wrap; justify-content: center; margin: 1.2rem 0; }
+  .flow-step { display: flex; flex-direction: column; align-items: center; gap: .3rem; padding: .6rem .8rem; background: var(--primary-light); border-radius: 10px; font-size: .78rem; font-weight: 600; color: var(--primary-dark); text-align: center; min-width: 90px; }
+  .flow-step svg { width: 32px; height: 32px; }
+  .flow-arrow { font-size: 1.3rem; color: var(--primary); flex-shrink: 0; }
+
+  @media (max-width: 700px) {
+    .hero { padding: 2rem 1.2rem 2rem; } .hero h1 { font-size: 1.5rem; }
+    .container { padding: 1rem; } .resource-grid { grid-template-columns: 1fr; }
+    .def-item { flex-direction: column; gap: .2rem; } .def-item strong { min-width: auto; }
+    .phase-nav { padding: .8rem 1rem; } .process-flow { gap: .2rem; }
+    .flow-step { min-width: 70px; font-size: .7rem; padding: .4rem .5rem; }
+  }
+  @media print {
+    .progress-wrapper, .phase-nav, .search-wrapper, .tts-btn { display: none; }
+    .phase-body { display: block !important; } .hero { padding: 1.5rem; }
+    .hero::after { display: none; } body { font-size: 11pt; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div style="margin-bottom:.8rem;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="white" stroke-width="2" fill="rgba(255,255,255,.15)"/><path d="M20 40V24l8-6 8 6v16" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><rect x="26" y="32" width="8" height="8" rx="1" stroke="white" stroke-width="2" fill="none"/><circle cx="42" cy="18" r="6" fill="white" fill-opacity=".3"/><path d="M40 18h4M42 16v4" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <h1>Einarbeitungsplan Empfang</h1>
+  <div class="subtitle">Physiologicum Berlin – Strukturierter Lernplan mit THEORG</div>
+  <div class="badge">Stand: April 2026 · Version 2.0 · Interaktiv</div>
+</div>
+
+<!-- ═══ PROGRESS ═══ -->
+<div class="progress-wrapper">
+  <div class="progress-bar-outer"><div class="progress-bar-inner" id="progressBar"></div></div>
+  <div class="progress-text"><span id="progressLabel">0 von 0 Aufgaben erledigt</span><span id="progressPercent">0 %</span></div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<nav class="phase-nav" id="phaseNav">
+  <a class="phase-pill" href="#phase0" data-phase="0">Start</a>
+  <a class="phase-pill" href="#phase1" data-phase="1">Phase 1</a>
+  <a class="phase-pill" href="#phase2" data-phase="2">Phase 2</a>
+  <a class="phase-pill" href="#phase3" data-phase="3">Phase 3</a>
+  <a class="phase-pill" href="#phase4" data-phase="4">Phase 4</a>
+  <a class="phase-pill" href="#phase5" data-phase="5">Phase 5</a>
+  <a class="phase-pill" href="#phase6" data-phase="6">Phase 6</a>
+</nav>
+<div class="search-wrapper"><input type="text" class="search-box" id="searchBox" placeholder="Suchbegriff eingeben (z.B. Rezept, Zuzahlung, Terminplan …)"></div>
+
+<!-- ═══ MAIN ═══ -->
+<div class="container">
+
+<!-- ── WELCOME ── -->
+<section id="phase0" class="phase-section">
+  <div class="welcome-card">
+    <h2>Willkommen im Physiologicum Berlin!</h2>
+    <p>Wir freuen uns, dass du unser Team am Empfang verstärkst! Dieser Lernplan führt dich Schritt für Schritt durch alle wichtigen Themen – von der Praxissoftware THEORG über den Umgang mit Patienten bis hin zur Rezeptabrechnung.</p>
+    <p>Arbeite die <strong>6 Phasen</strong> nacheinander durch. Der gesamte Prozess ist auf etwa <strong>4–6 Wochen</strong> ausgelegt.</p>
+    <button class="tts-btn" onclick="ttsToggle(this)" data-target="phase0">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+      <span>Vorlesen</span>
+    </button>
+    <div class="callout callout-tip" style="margin-top:1rem;">
+      <div class="callout-title">So funktioniert dieser Plan</div>
+      Jede Phase enthält Erklärungen, Videos, Illustrationen und eine Checkliste zum Abhaken. Dein Fortschritt wird oben angezeigt. Klicke auf die Lautsprecher-Buttons, um dir Abschnitte vorlesen zu lassen.
+    </div>
+  </div>
+
+  <!-- PROCESS FLOW ILLUSTRATION -->
+  <div class="card">
+    <h3>Dein Weg in 6 Phasen</h3>
+    <div class="process-flow">
+      <div class="flow-step">
+        <svg viewBox="0 0 40 40" fill="none"><rect x="4" y="8" width="32" height="24" rx="3" stroke="var(--primary)" stroke-width="2"/><circle cx="20" cy="20" r="5" stroke="var(--primary)" stroke-width="2"/><path d="M10 14h6M24 14h6" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Orientierung
+      </div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">
+        <svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="14" r="6" stroke="var(--primary)" stroke-width="2"/><path d="M10 34c0-6 4-10 10-10s10 4 10 10" stroke="var(--primary)" stroke-width="2" fill="none"/></svg>
+        Patienten
+      </div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">
+        <svg viewBox="0 0 40 40" fill="none"><rect x="6" y="4" width="28" height="32" rx="3" stroke="var(--primary)" stroke-width="2"/><path d="M12 12h16M12 18h16M12 24h10" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"/><circle cx="30" cy="30" r="6" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="2"/><path d="M28 30h4M30 28v4" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Rezepte
+      </div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">
+        <svg viewBox="0 0 40 40" fill="none"><rect x="4" y="6" width="32" height="28" rx="3" stroke="var(--primary)" stroke-width="2"/><path d="M4 14h32" stroke="var(--primary)" stroke-width="2"/><path d="M14 6v28M24 6v28" stroke="var(--primary)" stroke-width="1" stroke-dasharray="3 2"/><circle cx="19" cy="22" r="3" fill="var(--primary)" opacity=".3"/></svg>
+        Termine
+      </div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">
+        <svg viewBox="0 0 40 40" fill="none"><rect x="6" y="8" width="28" height="24" rx="3" stroke="var(--primary)" stroke-width="2"/><path d="M6 16h28" stroke="var(--primary)" stroke-width="2"/><path d="M16 22h8M16 28h12" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round"/><circle cx="11" cy="22" r="2" fill="var(--primary)"/></svg>
+        Abrechnung
+      </div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step">
+        <svg viewBox="0 0 40 40" fill="none"><path d="M20 6l14 8v12l-14 8-14-8V14z" stroke="var(--primary)" stroke-width="2" fill="var(--primary-light)"/><path d="M20 6v28M6 14l14 8 14-8" stroke="var(--primary)" stroke-width="1.5"/></svg>
+        Profi!
+      </div>
+    </div>
+
+    <table class="info-table">
+      <thead><tr><th>Woche</th><th>Phase</th><th>Lernziele</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td>Orientierung & Grundlagen</td><td>Praxis kennenlernen, Grundwissen Heilmittel, THEORG starten</td></tr>
+        <tr><td><strong>1–2</strong></td><td>Patienten & Stammdaten</td><td>Patientenkartei, eGK, Arztkartei, Datenschutz</td></tr>
+        <tr><td><strong>2–3</strong></td><td>Rezepte & Heilmittel</td><td>Rezepterfassung, HMR-Prüfung, Zuzahlung, Fristen</td></tr>
+        <tr><td><strong>3–4</strong></td><td>Terminplanung</td><td>Terminplan bedienen, Termine vergeben, Warteliste</td></tr>
+        <tr><td><strong>4–5</strong></td><td>Abrechnung & Kasse</td><td>Zuzahlung kassieren, Kassenbuch, Abrechnungsvorbereitung</td></tr>
+        <tr><td><strong>5–6</strong></td><td>Fortgeschrittene Themen</td><td>Klemmbrett, Selbstzahler, Kommunikation, Routine</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- RESOURCE HUB -->
+  <div class="resource-hub">
+    <h3>Deine Lernressourcen (alle kostenlos)</h3>
+    <div class="resource-grid">
+      <a class="resource-link" href="https://sovdwaer.de/files/seiten/schulungen/Kunden-Info%20Basiswissen.pdf" target="_blank"><div class="resource-icon icon-pdf">📄</div><div><strong>Basiswissen Heilmittelverordnung</strong><br><small>PDF – Pflichtlektüre Woche 1</small></div></a>
+      <a class="resource-link" href="https://sovdwaer.de/theorg-software" target="_blank"><div class="resource-icon icon-web">🌐</div><div><strong>THEORG Software-Übersicht</strong><br><small>Alle Funktionen im Überblick</small></div></a>
+      <a class="resource-link" href="https://sovdwaer.de/patienten-rezeptverwaltung" target="_blank"><div class="resource-icon icon-web">🌐</div><div><strong>Patienten- & Rezeptverwaltung</strong><br><small>Erklärseite bei SOVDWAER</small></div></a>
+      <a class="resource-link" href="https://sovdwaer.de/terminplan" target="_blank"><div class="resource-icon icon-web">🌐</div><div><strong>Terminplan-Software</strong><br><small>Erklärseite bei SOVDWAER</small></div></a>
+      <a class="resource-link" href="https://vimeo.com/user54401317" target="_blank"><div class="resource-icon icon-video">🎬</div><div><strong>SOVDWAER Vimeo-Kanal</strong><br><small>37 kostenlose THEORG-Videos</small></div></a>
+      <a class="resource-link" href="https://sovdwaer.de/theorg-2go" target="_blank"><div class="resource-icon icon-web">📱</div><div><strong>THEORG 2GO App</strong><br><small>Die mobile Lösung</small></div></a>
+      <a class="resource-link" href="https://sovdwaer.de/arbeitszeitverwaltung" target="_blank"><div class="resource-icon icon-web">⏰</div><div><strong>Arbeitszeitverwaltung</strong><br><small>Erklärseite bei SOVDWAER</small></div></a>
+      <a class="resource-link" href="#" onclick="return false;"><div class="resource-icon icon-help">💡</div><div><strong>THEORG-Hilfe (F1)</strong><br><small>Eingebaut in der Software</small></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PHASE 1 ═══════════ -->
+<section id="phase1" class="phase-section" data-phase="1">
+  <div class="phase-header" onclick="togglePhase(1)">
+    <div class="phase-number" id="phaseNum1">1</div>
+    <div class="phase-title-block"><h2>Orientierung & Grundlagen</h2><span class="week-badge">Woche 1</span></div>
+    <div class="phase-toggle" id="phaseToggle1">▼</div>
+  </div>
+  <div class="phase-body open" id="phaseBody1">
+
+    <div class="card" id="card-1-1">
+      <h3>1.1 Die Praxis kennenlernen</h3>
+      <p>Am ersten Tag geht es darum, dich zu orientieren. Wo sind die Behandlungsräume? Wo steht der Drucker? Wer ist wer im Team?</p>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-1-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+
+      <!-- Illustration: Praxis-Rundgang -->
+      <div class="illustration">
+        <img src="https://design.canva.ai/FeqWd1P5DUQc6xd" alt="Empfang & Praxisrundgang – Illustration" loading="lazy">
+      </div>
+
+      <div class="steps">
+        <div class="step"><span>Rundgang durch die Praxis mit deinem Einarbeitungspartner.</span></div>
+        <div class="step"><span>Lerne die Therapeuten mit Namen und Fachgebiet kennen.</span></div>
+        <div class="step"><span>Mache dich mit dem Telefonsystem und der Gegensprechanlage vertraut.</span></div>
+        <div class="step"><span>Kläre, wo Verbrauchsmaterial (Papier, Quittungsblöcke etc.) gelagert wird.</span></div>
+      </div>
+    </div>
+
+    <div class="card" id="card-1-2">
+      <h3>1.2 Grundwissen Heilmittelbranche</h3>
+      <p>Fahre mit der Maus über die Begriffe für eine kurze Erklärung:</p>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-1-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+
+      <!-- Illustration: Rezept-Anatomie -->
+      <div class="illustration">
+        <img src="https://design.canva.ai/eUGhwTjdd-ktl-k" alt="Heilmittelverordnung / Rezept – Illustration" loading="lazy">
+      </div>
+
+      <div class="def-grid">
+        <div class="def-item"><strong><span class="glossary-term">Heilmittelverordnung<span class="glossary-tooltip">Das Rezept vom Arzt – ohne es darf bei GKV-Patienten nicht behandelt werden.</span></span></strong><span>Das Rezept vom Arzt – ohne es darf nicht behandelt werden.</span></div>
+        <div class="def-item"><strong><span class="glossary-term">Heilmittel-Richtlinie (HMR)<span class="glossary-tooltip">Gesetzliche Regeln, welche Heilmittel bei welcher Diagnose verordnet werden dürfen. THEORG prüft automatisch dagegen.</span></span></strong><span>Gesetzliche Regeln, welche Heilmittel wann verordnet werden dürfen.</span></div>
+        <div class="def-item"><strong><span class="glossary-term">Indikationsschlüssel<span class="glossary-tooltip">Kürzel auf dem Rezept (z.B. WS1a) – gibt die Diagnosegruppe an.</span></span></strong><span>Kürzel auf dem Rezept (z.B. WS1a) für die Diagnosegruppe.</span></div>
+        <div class="def-item"><strong><span class="glossary-term">ICD-10-Code<span class="glossary-tooltip">Internationaler Diagnoseschlüssel (z.B. M54.5 für Kreuzschmerz). Steht auf jedem Rezept.</span></span></strong><span>Internationaler Diagnoseschlüssel (z.B. M54.5 = Kreuzschmerz).</span></div>
+        <div class="def-item"><strong><span class="glossary-term">Zuzahlung<span class="glossary-tooltip">10 % der Behandlungskosten + 10 € pro Rezept. Befreite Patienten zahlen nichts.</span></span></strong><span>Eigenanteil: 10 % der Kosten + 10 € pro Rezept.</span></div>
+        <div class="def-item"><strong><span class="glossary-term">eGK<span class="glossary-tooltip">Elektronische Gesundheitskarte – die Chipkarte mit Krankenkassendaten.</span></span></strong><span>Elektronische Gesundheitskarte (Chipkarte) des Patienten.</span></div>
+        <div class="def-item"><strong><span class="glossary-term">Kostenträger<span class="glossary-tooltip">Krankenkasse oder Berufsgenossenschaft, die die Behandlung bezahlt.</span></span></strong><span>Die Krankenkasse oder BG, die die Behandlung bezahlt.</span></div>
+      </div>
+
+      <div class="callout callout-warn">
+        <div class="callout-title">Pflichtlektüre: Basiswissen Heilmittelverordnung</div>
+        SOVDWAER stellt ein kostenloses PDF bereit. <strong>Lies es in deiner ersten Woche durch!</strong><br>
+        <a href="https://sovdwaer.de/files/seiten/schulungen/Kunden-Info%20Basiswissen.pdf" target="_blank" style="color:var(--warning); font-weight:700;">📄 PDF jetzt herunterladen</a>
+      </div>
+    </div>
+
+    <div class="card" id="card-1-3">
+      <h3>1.3 THEORG kennenlernen – Erster Start</h3>
+      <p>THEORG (<strong>THE</strong>rapie<strong>ORG</strong>anisation) ist die Software, mit der du am meisten arbeiten wirst.</p>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-1-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+
+      <div class="steps">
+        <div class="step"><span>Setze dich an einen Arbeitsplatz und starte THEORG.</span></div>
+        <div class="step"><span>Melde dich mit deinem Benutzerkonto an.</span></div>
+        <div class="step"><span>Schaue dir die Hauptnavigation an: Menüleiste oben, Schnellzugriff links.</span></div>
+        <div class="step"><span>Klicke dich durch die Bereiche – <strong>ohne etwas zu ändern</strong>.</span></div>
+        <div class="step"><span>Öffne die Hilfe: Menü „Hilfe" oder <kbd>F1</kbd>.</span></div>
+      </div>
+
+      <h4 style="margin-top:1.2rem; color:var(--primary-dark);">Video: Was kann THEORG? (Einführung)</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/458597469?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Was kann THEORG?</h4><p>Offizielles Einführungsvideo von SOVDWAER – Überblick über alle Funktionen</p></div>
+      </div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Orientierung in THEORG</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/453931782?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>„Wo finde ich ...?" – Orientierung in THEORG</h4><p>Lerne die Navigation und wichtigsten Bereiche der Oberfläche kennen</p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Checkliste Phase 1</h3>
+      <div class="checklist" data-phase="1">
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Praxisrundgang absolviert, Räume und Team kennengelernt</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Grundbegriffe (Rezept, HMR, Zuzahlung, eGK, ICD-10) verstanden</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">PDF „Basiswissen Heilmittelverordnung" gelesen</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">THEORG gestartet und Oberfläche erkundet</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Beide Einführungsvideos angeschaut</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Integrierte Hilfe (F1) gefunden und ausprobiert</span></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PHASE 2 ═══════════ -->
+<section id="phase2" class="phase-section" data-phase="2">
+  <div class="phase-header" onclick="togglePhase(2)">
+    <div class="phase-number" id="phaseNum2">2</div>
+    <div class="phase-title-block"><h2>Patienten & Stammdaten</h2><span class="week-badge">Woche 1–2</span></div>
+    <div class="phase-toggle" id="phaseToggle2">▼</div>
+  </div>
+  <div class="phase-body" id="phaseBody2">
+
+    <div class="card" id="card-2-1">
+      <h3>2.1 Neuen Patienten anlegen</h3>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-2-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+
+      <!-- Illustration: eGK-Workflow -->
+      <div class="illustration">
+        <img src="https://design.canva.ai/L1yD7ASuh2QPNNW" alt="Patientenaufnahme mit eGK – Illustration" loading="lazy">
+      </div>
+
+      <div class="steps">
+        <div class="step"><span>Lasse dir die <span class="glossary-term">eGK<span class="glossary-tooltip">Elektronische Gesundheitskarte – Chipkarte mit Krankenkassendaten.</span></span> des Patienten geben.</span></div>
+        <div class="step"><span>Karte in das Lesegerät → THEORG liest <strong>automatisch</strong>.</span></div>
+        <div class="step"><span>Eingelesene Daten auf Vollständigkeit prüfen.</span></div>
+        <div class="step"><span>Ohne eGK (Privatpatient): Daten manuell eingeben.</span></div>
+      </div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Einblick in die Patientenkartei</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/453929921?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Einblick in die Patientenkartei</h4><p>SOVDWAER zeigt dir alle Funktionen der Patientenverwaltung</p></div>
+      </div>
+    </div>
+
+    <div class="card" id="card-2-2">
+      <h3>2.2 Ärztekartei</h3>
+      <p>Jedes Rezept wird einem verordnenden Arzt zugeordnet. Die gängigen Ärzte sind meist hinterlegt. Bei einem neuen Arzt brauchst du: <strong>Name</strong>, <strong>Fachrichtung</strong>, <strong>LANR</strong> und <strong>BSNR</strong>.</p>
+      <div class="callout callout-tip"><div class="callout-title">Tipp</div>LANR und BSNR findest du auf dem Rezept oben links im Arztstempel (siehe Illustration oben).</div>
+    </div>
+
+    <div class="card" id="card-2-3">
+      <h3>2.3 Datenschutz am Empfang</h3>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-2-3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+      <!-- Datenschutz-Illustration -->
+      <div class="illustration">
+        <img src="https://design.canva.ai/v5i2RycG2yh2NA_" alt="Datenschutz & Kommunikation – Illustration" loading="lazy">
+      </div>
+      <div class="callout callout-danger"><div class="callout-title">Wichtig: DSGVO</div>Verstöße können ernste Konsequenzen haben. Bildschirm sperren: <kbd>Win</kbd> + <kbd>L</kbd></div>
+    </div>
+
+    <div class="card">
+      <h3>Checkliste Phase 2</h3>
+      <div class="checklist" data-phase="2">
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Patienten über eGK-Lesegerät anlegen geübt</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Patienten manuell anlegen geübt (Privatpatienten)</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Patientenkartei durchsuchen und bearbeiten geübt</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Ärztekartei verstanden, neuen Arzt anlegen geübt</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Video „Patientenkartei" angeschaut</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Datenschutzregeln am Empfang verinnerlicht</span></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PHASE 3 ═══════════ -->
+<section id="phase3" class="phase-section" data-phase="3">
+  <div class="phase-header" onclick="togglePhase(3)">
+    <div class="phase-number" id="phaseNum3">3</div>
+    <div class="phase-title-block"><h2>Rezepte & Heilmittelverordnungen</h2><span class="week-badge">Woche 2–3</span></div>
+    <div class="phase-toggle" id="phaseToggle3">▼</div>
+  </div>
+  <div class="phase-body" id="phaseBody3">
+
+    <div class="callout callout-warn" style="margin-bottom:1.2rem;"><div class="callout-title">Kernthema</div>Rezepte sind das Herzstück der Praxisarbeit. Ohne korrekte Rezepte keine Behandlung, keine Abrechnung!</div>
+
+    <div class="card" id="card-3-1">
+      <h3>3.1 Rezept in THEORG erfassen</h3>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-3-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+      <div class="steps">
+        <div class="step"><span>Rufe den Patienten in der Patientenkartei auf.</span></div>
+        <div class="step"><span>Wechsle in die Rezeptverwaltung → <strong>Neues Rezept</strong>.</span></div>
+        <div class="step"><span>Daten vom Papierrezept eintragen: Indikationsschlüssel, ICD-10, Heilmittel, Menge, Frequenz.</span></div>
+        <div class="step"><span>Verordnenden Arzt aus Ärztekartei zuordnen.</span></div>
+        <div class="step"><span><strong>Heilmittelprüfung</strong> (HMR-Prüfung) starten – THEORG zeigt Fehler an.</span></div>
+        <div class="step"><span>Rezept speichern.</span></div>
+      </div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Einblick in die Rezeptekartei</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/453933989?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Einblick in die Rezeptekartei</h4><p>So erfasst und verwaltest du Rezepte in THEORG</p></div>
+      </div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Neue Rezepte und deren Taxierung</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/500840849?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Neue Rezepte und deren Taxierung – MLA</h4><p>Praxisnahes Video zur Rezepterfassung und Taxierung</p></div>
+      </div>
+    </div>
+
+    <div class="card" id="card-3-2">
+      <h3>3.2 Heilmittelprüfung (HMR-Prüfung)</h3>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-3-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+      <p>THEORG prüft Rezepte automatisch gegen die Heilmittel-Richtlinie. Fehlerhafte Rezepte werden von Kassen <strong>nicht bezahlt</strong>.</p>
+
+      <!-- Illustration: HMR Prüfung -->
+      <div class="illustration">
+        <img src="https://design.canva.ai/PyHXEERDURXv1zs" alt="Terminplanung & Prüfung – Illustration" loading="lazy">
+      </div>
+
+      <div class="callout callout-danger"><div class="callout-title">Achtung: 28-Tage-Frist</div>Behandlung muss <strong>innerhalb von 28 Tagen</strong> nach Rezeptdatum beginnen. THEORG warnt automatisch!</div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Heilmittel-Richtlinie in THEORG</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/502117872?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Alles rund um die neue Heilmittel-Richtlinie in THEORG</h4><p>Wie THEORG die HMR-Prüfung umsetzt</p></div>
+      </div>
+    </div>
+
+    <div class="card" id="card-3-3">
+      <h3>3.3 Zuzahlung berechnen</h3>
+      <p>THEORG berechnet die Zuzahlung automatisch. Du prüfst nur den Befreiungsstatus.</p>
+      <div class="def-grid">
+        <div class="def-item"><strong>Zuzahlungspflichtig</strong><span>10 % + 10 € je Rezept</span></div>
+        <div class="def-item"><strong>Befreit</strong><span>Nichts – Befreiungsausweis in THEORG vermerken</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Checkliste Phase 3</h3>
+      <div class="checklist" data-phase="3">
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Rezept in THEORG anlegen geübt (min. 5 Übungsrezepte)</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Video „Rezeptekartei" angeschaut</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Video „Heilmittel-Richtlinie" angeschaut</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">HMR-Prüfung verstanden und angewendet</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">28-Tage-Frist verstanden</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Zuzahlung + Quittung geübt</span></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PHASE 4 ═══════════ -->
+<section id="phase4" class="phase-section" data-phase="4">
+  <div class="phase-header" onclick="togglePhase(4)">
+    <div class="phase-number" id="phaseNum4">4</div>
+    <div class="phase-title-block"><h2>Terminplanung</h2><span class="week-badge">Woche 3–4</span></div>
+    <div class="phase-toggle" id="phaseToggle4">▼</div>
+  </div>
+  <div class="phase-body" id="phaseBody4">
+
+    <div class="callout callout-info" style="margin-bottom:1.2rem;"><div class="callout-title">Umsatzrelevant!</div>Jeder leere Slot kostet die Praxis Geld. Ein gut geführter Terminplan ist entscheidend.</div>
+
+    <div class="card" id="card-4-1">
+      <h3>4.1 Terminplan verstehen & Termine vergeben</h3>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-4-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+
+      <p>THEORG-Terminplan = digitales Terminbuch. Jeder Therapeut hat eine Spalte. Ansichten: Tages-/Wochen-/Behandlerübersicht.</p>
+
+      <div class="steps">
+        <div class="step"><span>Patient und aktuelles Rezept aufrufen.</span></div>
+        <div class="step"><span><strong>Suchfunktion</strong> nutzen für passenden freien Termin.</span></div>
+        <div class="step"><span>Zeitslot anklicken → THEORG prüft Berechtigung des Therapeuten.</span></div>
+        <div class="step"><span>Termin bestätigen und ggf. <strong>Terminzettel drucken</strong>.</span></div>
+      </div>
+
+      <div class="def-grid">
+        <div class="def-item"><strong>Verschieben</strong><span>Drag-and-Drop oder Kontextmenü</span></div>
+        <div class="def-item"><strong>Löschen</strong><span>Termin markieren → löschen</span></div>
+        <div class="def-item"><strong>Warteliste</strong><span>Patienten bei freien Slots nachrücken lassen</span></div>
+      </div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Neuer Mitarbeiter im Terminplan</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/481706497?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Neuer Mitarbeiter im Terminplan</h4><p>So richtest du neue Mitarbeiter im THEORG-Terminplan ein</p></div>
+      </div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Dauertermine einrichten</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/766415170?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Dauertermine in THEORG</h4><p>Wiederkehrende Termine effizient anlegen</p></div>
+      </div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Termine absagen</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/871382781?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Termine absagen</h4><p>Korrekte Handhabung von Absagen und Ausfallrechnungen</p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>4.2 Terminerinnerungen</h3>
+      <p>THEORG verschickt automatisch Erinnerungen per E-Mail/SMS. Achte darauf, dass bei jedem Patienten Kontaktdaten hinterlegt sind.</p>
+    </div>
+
+    <div class="card">
+      <h3>Checkliste Phase 4</h3>
+      <div class="checklist" data-phase="4">
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Terminplan-Ansichten ausprobiert</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Min. 10 Termine eigenständig vergeben</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Alle 3 Terminplan-Videos angeschaut</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Termine verschieben und löschen geübt</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Warteliste verstanden und genutzt</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Terminzettel ausgedruckt</span></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PHASE 5 ═══════════ -->
+<section id="phase5" class="phase-section" data-phase="5">
+  <div class="phase-header" onclick="togglePhase(5)">
+    <div class="phase-number" id="phaseNum5">5</div>
+    <div class="phase-title-block"><h2>Abrechnung & Kasse</h2><span class="week-badge">Woche 4–5</span></div>
+    <div class="phase-toggle" id="phaseToggle5">▼</div>
+  </div>
+  <div class="phase-body" id="phaseBody5">
+
+    <div class="card" id="card-5-1">
+      <h3>5.1 Zuzahlung kassieren</h3>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-5-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+
+      <!-- Illustration: Kassiervorgang -->
+      <div class="illustration">
+        <img src="https://design.canva.ai/P2HPUwzFjyTmYsg" alt="Abrechnung & Kasse – Illustration" loading="lazy">
+      </div>
+
+      <div class="steps">
+        <div class="step"><span>Rezept des Patienten aufrufen → <strong>„Zuzahlung kassieren"</strong>.</span></div>
+        <div class="step"><span>THEORG zeigt den Betrag an – prüfen.</span></div>
+        <div class="step"><span>Geld entgegen nehmen (bar oder Karte).</span></div>
+        <div class="step"><span>Zahlung bestätigen + <strong>Quittung drucken</strong>.</span></div>
+      </div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Umsatzstatistik</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/915079812?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Umsatzstatistik</h4><p>Umsätze und Statistiken in THEORG auswerten</p></div>
+      </div>
+    </div>
+
+    <div class="card" id="card-5-2">
+      <h3>5.2 Kassenbuch & Abrechnungsvorbereitung</h3>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-5-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+      <p>Jede Bareinnahme wird im digitalen Kassenbuch dokumentiert. Zuzahlungen werden automatisch eingetragen.</p>
+      <div class="callout callout-danger"><div class="callout-title">Pflicht: Kassensicherungsverordnung (TSE)</div>Jede Transaktion muss korrekt gebucht werden. THEORG unterstützt TSE.</div>
+      <p style="margin-top:.8rem;"><strong>Deine Aufgabe bei der Abrechnungsvorbereitung:</strong></p>
+      <div class="steps">
+        <div class="step"><span>Alle Termine im Terminblatt dokumentiert.</span></div>
+        <div class="step"><span>Zuzahlung vollständig kassiert.</span></div>
+        <div class="step"><span>Unterschriften auf dem Rezept vorhanden.</span></div>
+        <div class="step"><span>Rezept vollständig und fehlerfrei erfasst.</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Checkliste Phase 5</h3>
+      <div class="checklist" data-phase="5">
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Zuzahlung kassieren und Quittung drucken geübt</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Kassenbuch-Funktion verstanden</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Video „Umsatzstatistik" angeschaut</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Abrechnungsvorbereitung verstanden</span></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PHASE 6 ═══════════ -->
+<section id="phase6" class="phase-section" data-phase="6">
+  <div class="phase-header" onclick="togglePhase(6)">
+    <div class="phase-number" id="phaseNum6">6</div>
+    <div class="phase-title-block"><h2>Fortgeschrittene Themen & Routine</h2><span class="week-badge">Woche 5–6</span></div>
+    <div class="phase-toggle" id="phaseToggle6">▼</div>
+  </div>
+  <div class="phase-body" id="phaseBody6">
+
+    <div class="card" id="card-6-1">
+      <h3>6.1 THEORG Klemmbrett & THEORG 2GO</h3>
+      <p><strong>Klemmbrett:</strong> Patienten füllen Formulare am Tablet aus – kein Papier. <strong>THEORG 2GO:</strong> Therapeuten greifen mobil auf Termine zu. Änderungen erscheinen sofort in THEORG.</p>
+    </div>
+
+    <div class="card" id="card-6-2">
+      <h3>6.2 Selbstzahler & Privatpatienten</h3>
+      <button class="tts-btn" onclick="ttsToggle(this)" data-target="card-6-2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg><span>Vorlesen</span></button>
+      <div class="def-grid">
+        <div class="def-item"><strong>Kein Kassenrezept</strong><span>Privatrezept oder gar keine Verordnung</span></div>
+        <div class="def-item"><strong>Direktrechnung</strong><span>Rechnung direkt an den Patienten</span></div>
+        <div class="def-item"><strong>Preisliste</strong><span>Korrekte Selbstzahler-Preise beachten</span></div>
+      </div>
+    </div>
+
+    <div class="card" id="card-6-3">
+      <h3>6.3 Kommunikation am Telefon</h3>
+      <div class="callout callout-info"><div class="callout-title">Begrüßung</div><em>„Physiologicum Berlin, [dein Name], wie kann ich Ihnen helfen?"</em></div>
+      <div class="steps">
+        <div class="step"><span>Immer freundlich und ruhig, auch bei schwierigen Anrufern.</span></div>
+        <div class="step"><span>Name und Anliegen notieren, bevor du weiterverbindest.</span></div>
+        <div class="step"><span>Rezeptfragen: <strong>nie</strong> medizinische Auskunft – an Therapeuten verweisen.</span></div>
+        <div class="step"><span>Terminwünsche: sofort in THEORG die Verfügbarkeit prüfen.</span></div>
+      </div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Selektionen in THEORG</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/825033490?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Selektionen</h4><p>Patienten nach Kriterien filtern und selektieren – nützlich für Kommunikation</p></div>
+      </div>
+
+      <h4 style="margin-top:1rem; color:var(--primary-dark);">Video: Vertretung einrichten</h4>
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="https://player.vimeo.com/video/481712088?byline=0&portrait=0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="video-info"><h4>Vertretung einrichten</h4><p>So richtest du Vertretungen ein, wenn Therapeuten ausfallen</p></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>6.4 Noch unsicher? Kostenpflichtige Schulungen</h3>
+      <div class="callout callout-tip" style="margin-bottom:1rem;"><div class="callout-title">Erst alle kostenlosen Ressourcen ausschöpfen!</div>Nutze zuerst alle Videos, PDFs, SOVDWAER-Seiten und die THEORG-Hilfe (F1). Erst danach → Praxisleitung wegen Schulung ansprechen.</div>
+      <div class="paid-section">
+        <span class="paid-badge">KOSTENPFLICHTIG</span>
+        <table class="info-table">
+          <thead><tr><th>Format</th><th>Beschreibung</th><th>Link</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Online-Workshops</strong></td><td>Ca. 90 Min., Themen: Einrichtung, Terminplan, Abrechnung</td><td><a href="https://sovdwaer.de/schulungen/online-workshops" target="_blank">Info</a></td></tr>
+            <tr><td><strong>Gruppenschulungen</strong></td><td>Ganztägig, Ludwigsburg oder online</td><td><a href="https://sovdwaer.de/schulungen/gruppenschulung" target="_blank">Info</a></td></tr>
+            <tr><td><strong>Vor-Ort-Schulung</strong></td><td>Individuell in eurer Praxis</td><td><a href="https://sovdwaer.de/schulungen" target="_blank">Info</a></td></tr>
+            <tr><td><strong>Telefonschulung</strong></td><td>Kurze Schulung zu einem Thema</td><td><a href="https://sovdwaer.de/schulungen" target="_blank">Info</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Checkliste Phase 6</h3>
+      <div class="checklist" data-phase="6">
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Klemmbrett und THEORG 2GO kennengelernt</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Selbstzahler-Prozess geübt</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Telefon-Leitfaden verinnerlicht</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Videos „Selektionen" und „Vertretung" angeschaut</span></label>
+        <label class="check-item"><input type="checkbox"><span class="check-box">✓</span><span class="check-label">Kostenpflichtige Schulungen als Option bekannt</span></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL ═══ -->
+<div class="final-card">
+  <svg width="50" height="50" viewBox="0 0 50 50" fill="none" style="margin-bottom:.5rem;"><circle cx="25" cy="25" r="22" stroke="white" stroke-width="2" fill="rgba(255,255,255,.2)"/><path d="M15 26l7 7 13-14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <h2>Geschafft – Willkommen im Team!</h2>
+  <p>Du kannst jetzt Patienten empfangen, Daten und Rezepte erfassen, den Terminplan führen, Zuzahlungen kassieren und souverän telefonieren.</p>
+  <p style="margin-top:1rem; font-weight:600;">Fragen sind immer erwünscht – lieber einmal zu viel als zu wenig!</p>
+  <p style="margin-top:1.2rem; opacity:.7; font-size:.9rem;">Physiologicum Berlin – Dein Team wünscht dir einen erfolgreichen Start!</p>
+</div>
+
+</div><!-- /container -->
+
+<!-- ═══ JAVASCRIPT ═══ -->
+<script>
+(function() {
+  const STORAGE_KEY = 'physiologicum-onboarding-v2';
+  let state = {};
+  try { const r = sessionStorage.getItem(STORAGE_KEY); if(r) state = JSON.parse(r); } catch(e) {}
+  function saveState() { try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {} }
+
+  // ── CHECKBOXES ──
+  const checkboxes = document.querySelectorAll('.check-item input[type="checkbox"]');
+  checkboxes.forEach((cb, i) => {
+    if (state['cb_'+i]) cb.checked = true;
+    cb.addEventListener('change', () => { state['cb_'+i] = cb.checked; saveState(); updateProgress(); });
+  });
+
+  // ── PROGRESS ──
+  function updateProgress() {
+    const total = checkboxes.length, done = [...checkboxes].filter(c=>c.checked).length;
+    const pct = total>0 ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressBar').style.width = pct+'%';
+    document.getElementById('progressLabel').textContent = done+' von '+total+' Aufgaben erledigt';
+    document.getElementById('progressPercent').textContent = pct+' %';
+    for (let p=1;p<=6;p++) {
+      const pc = document.querySelectorAll('[data-phase="'+p+'"] input[type="checkbox"]');
+      const pill = document.querySelector('a.phase-pill[data-phase="'+p+'"]');
+      const num = document.getElementById('phaseNum'+p);
+      if (!pill) continue;
+      const allDone = pc.length>0 && [...pc].every(c=>c.checked);
+      pill.classList.toggle('completed', allDone);
+      if(num) num.classList.toggle('done', allDone);
+    }
+  }
+  updateProgress();
+
+  // ── TOGGLE PHASES ──
+  window.togglePhase = function(n) {
+    const body = document.getElementById('phaseBody'+n);
+    const toggle = document.getElementById('phaseToggle'+n);
+    if (!body) return;
+    body.classList.toggle('open');
+    if (toggle) toggle.classList.toggle('open', body.classList.contains('open'));
+  };
+
+  // ── NAV ──
+  document.querySelectorAll('.phase-pill').forEach(pill => {
+    pill.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(pill.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({behavior:'smooth', block:'start'});
+        const n = pill.dataset.phase;
+        const body = document.getElementById('phaseBody'+n);
+        if (body && !body.classList.contains('open')) { body.classList.add('open'); const t=document.getElementById('phaseToggle'+n); if(t) t.classList.add('open'); }
+      }
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.phase-pill').forEach(p=>p.classList.remove('active'));
+        const a = document.querySelector('.phase-pill[href="#'+entry.target.id+'"]');
+        if (a && !a.classList.contains('completed')) a.classList.add('active');
+      }
+    });
+  }, {rootMargin: '-120px 0px -60% 0px'});
+  document.querySelectorAll('.phase-section').forEach(s => observer.observe(s));
+
+  // ── SEARCH ──
+  const searchBox = document.getElementById('searchBox');
+  searchBox.addEventListener('input', () => {
+    const q = searchBox.value.trim().toLowerCase();
+    document.querySelectorAll('.search-highlight').forEach(el => { el.replaceWith(document.createTextNode(el.textContent)); });
+    if (q.length<2) { document.querySelectorAll('.card,.welcome-card,.resource-hub,.paid-section').forEach(c=>c.style.display=''); document.querySelectorAll('.phase-section').forEach(s=>s.style.display=''); return; }
+    document.querySelectorAll('.phase-section').forEach(section => {
+      const cards = section.querySelectorAll('.card,.paid-section');
+      let vis = false;
+      cards.forEach(card => { const m = card.textContent.toLowerCase().includes(q); card.style.display = m?'':'none'; if(m) vis=true; });
+      if (vis || section.textContent.toLowerCase().includes(q)) { section.style.display=''; const b=section.querySelector('.phase-body'); if(b) b.classList.add('open'); } });
+  });
+
+  // ── TTS (ElevenLabs API) ──
+  let currentTtsBtn = null;
+  let currentAudio = null;
+  const EL_VOICE_ID = 'onwK4e9ZLuTAKqWW03F9'; // Daniel – German-capable multilingual voice
+  const EL_MODEL = 'eleven_multilingual_v2';
+
+  const EL_API_KEY = '4083998b8a41cae8c834984900c971dd25a6bd2653dcd8bdc58598b33a1e052a';
+
+  window.ttsToggle = function(btn) {
+    // If currently playing this button → stop
+    if (currentTtsBtn === btn && currentAudio && !currentAudio.paused) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+      btn.classList.remove('playing');
+      btn.querySelector('span').textContent = 'Vorlesen';
+      currentTtsBtn = null;
+      currentAudio = null;
+      return;
+    }
+    // Stop any previous
+    if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; }
+    if (currentTtsBtn) { currentTtsBtn.classList.remove('playing'); currentTtsBtn.querySelector('span').textContent='Vorlesen'; }
+    currentTtsBtn = null; currentAudio = null;
+
+    const apiKey = EL_API_KEY;
+
+    // Get text
+    const targetId = btn.dataset.target;
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    const clone = el.cloneNode(true);
+    clone.querySelectorAll('.tts-btn, .video-wrapper, .video-info, iframe, .checklist, .illustration').forEach(e=>e.remove());
+    let text = clone.textContent.replace(/\s+/g,' ').trim();
+    // Limit to ~2400 chars (ElevenLabs free tier limit)
+    if (text.length > 2400) text = text.substring(0, 2400) + '...';
+
+    btn.classList.add('playing');
+    btn.querySelector('span').textContent = 'Laden...';
+    currentTtsBtn = btn;
+
+    fetch('https://api.elevenlabs.io/v1/text-to-speech/' + EL_VOICE_ID, {
+      method: 'POST',
+      headers: { 'xi-api-key': apiKey, 'Content-Type': 'application/json', 'Accept': 'audio/mpeg' },
+      body: JSON.stringify({ text: text, model_id: EL_MODEL, voice_settings: { stability: 0.5, similarity_boost: 0.75, style: 0.4 } })
+    })
+    .then(res => {
+      if (!res.ok) {
+        if (res.status === 401) { sessionStorage.removeItem('el_api_key'); throw new Error('API-Key ungültig. Bitte erneut eingeben.'); }
+        throw new Error('ElevenLabs-Fehler: ' + res.status);
+      }
+      return res.blob();
+    })
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      currentAudio = audio;
+      audio.onplay = () => { btn.querySelector('span').textContent = 'Stoppen'; };
+      audio.onended = () => { btn.classList.remove('playing'); btn.querySelector('span').textContent='Vorlesen'; currentTtsBtn=null; currentAudio=null; URL.revokeObjectURL(url); };
+      audio.onerror = () => { btn.classList.remove('playing'); btn.querySelector('span').textContent='Vorlesen'; currentTtsBtn=null; currentAudio=null; };
+      audio.play();
+    })
+    .catch(err => {
+      btn.classList.remove('playing');
+      btn.querySelector('span').textContent = 'Vorlesen';
+      currentTtsBtn = null;
+      alert(err.message || 'Fehler beim Vorlesen.');
+      if (err.message && err.message.includes('ungültig')) showElModal();
+    });
+  };
+
+})();
+</script>
+
+</body>
+</html>
